@@ -1,0 +1,16 @@
+{
+  "name": "node-red-contrib-salus-it500",
+  "version": "1.0.0",
+  "description": "Manage and control a salus-it500 device.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "JustMVG",
+  "license": "ISC",
+  "node-red": {
+    "nodes": {
+      "salus-it500": "index.js"
+    }
+  }
+}

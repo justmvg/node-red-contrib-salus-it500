@@ -1,0 +1,118 @@
+<script type="text/javascript">
+    RED.nodes.registerType('Retrieve ID and Token', {
+        category: 'salus',
+        color: '#3FADB5',
+        defaults: {
+            name: { value: "" }
+        },
+        credentials: {
+            username: { type: "text" },
+            password: { type: "password" }
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "it500.png",
+        label: function () {
+            return this.name || "salus-it500";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="Retrieve ID and Token">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-username"><i class="icon-tag"></i> Username</label>
+        <input type="text" id="node-input-username" placeholder="Username">
+    </div>
+    <div class="form-row">
+        <label for="node-input-password"><i class="icon-tag"></i> Password</label>
+        <input type="password" id="node-input-password" placeholder="Password">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Retrieve ID and Token">
+    <p>A node build for Salus IT-500</p>
+    <p>Configure this node to retrieve the device ID and token for your devices.<br />
+    Use the credentials which you use to login to salus-it500.com</p>
+    <h2>Node Input</h2>
+    <p>Input anything to get a new token & device ID.</p>
+    <h2>Node Output</h2>
+    <ul>
+        <li>Output: Returns json containing the current token and device ID.</li>
+    </ul>
+    <p>Example:</p>
+    <p>{"token":"6543-1267012376","id":"142833"}</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Set temperature', {
+        category: 'salus',
+        color: '#3FADB5',
+        defaults: {
+            name: { value: "" }
+        },
+        inputs: 1,
+        outputs: 2,
+        outputLabels: ["set temp", "invalid token"],
+        icon: "feed.png",
+        label: function () {
+            return this.name || "Set temperature";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="Set temperature">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Set temperature">
+    <p>A node that changes the temperature settings.</p>
+    <h2>Node Input</h2>
+    <p>To set the temperature, make sure a float or integer is given as input.</p>
+    <h2>Node Output</h2>
+    <ul>
+        <li>Output 1: Returns the exact same as the input value if setting temperature was successful.</li>
+        <li>Output 2: Only returns output if the token or device ID are invalid/expired.</li>
+    </ul>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Current temperature', {
+        category: 'salus',
+        color: '#3FADB5',
+        defaults: {
+            name: { value: "" }
+        },
+        inputs: 1,
+        outputs: 2,
+        outputLabels: ["current temp", "invalid token"],
+        icon: "feed.png",
+        label: function () {
+            return this.name || "Current temperature";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="Current temperature">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Current temperature">
+    <p>A node that retrieves the current temperature data.</p>
+    <p>Any input triggers a call to Salus and will output the current set temperature and the current temperature.</p>
+    <h2>Node Ouput</h2>
+    <ul>
+        <li>Output 1: Returns json object with Current & Set temperatures.</li>
+        <li>Output 2: Only returns output if the token or device ID are invalid/expired.</li>
+    </ul>
+
+</script>
