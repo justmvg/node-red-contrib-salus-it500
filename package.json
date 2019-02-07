@@ -1,5 +1,5 @@
 {
-  "name": "node-red-contrib-salus",
+  "name": "node-red-contrib-salus-control",
   "version": "1.0.0",
   "description": "Manage and control a salus-it500 device.",
   "main": "index.js",
