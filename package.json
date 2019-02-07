@@ -1,16 +1,25 @@
 {
-  "name": "node-red-contrib-salus-it500",
+  "name": "node-red-contrib-salus",
   "version": "1.0.0",
   "description": "Manage and control a salus-it500 device.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "node-red",
+    "salus",
+    "it500"
+  ],
   "author": "JustMVG",
   "license": "MIT",
   "node-red": {
     "nodes": {
       "salus-it500": "index.js"
     }
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "request": "^2.88.0"
   }
 }
