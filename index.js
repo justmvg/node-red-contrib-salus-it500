@@ -131,4 +131,60 @@ module.exports = function (RED) {
         });
     }
     RED.nodes.registerType("Current temperature", GetTempsalusit500);
+
+
+    function SetAutosalusit500(config) {
+        RED.nodes.createNode(this, config);
+
+        var flowContext = this.context().flow;
+        var node = this;
+        node.on('input', function (msg) {
+            var cToken = flowContext.get('token') || 0;
+            var cdevId = flowContext.get('devId') || 0;
+            var desiredState;
+
+            if (cToken == 0 || cdevId == 0) {
+                msg.payload = 'No token or device id found.';
+                node.send([null, msg])
+            } else {
+                if (msg.payload === "AUTO" || msg.payload === true){
+                    desiredState = 0
+                } else if (msg.payload === "OFF" || msg.payload === false){
+                    desiredState = 1
+                } else {
+                    desiredState = 0
+                }
+
+                var postdata = {
+                    url: 'https://salus-it500.com/includes/set.php',
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded'
+                    },
+                    form:
+                    {
+                        token: cToken,
+                        devId: cdevId,
+                        auto: desiredState,
+                        auto_setZ1: 1
+                    }
+                }
+                request.post(postdata, (err, response, body) => {
+                    if (err) {
+                        msg.payload = msg;
+                        node.warn(msg);
+                        return console.error('Failed:', err);
+                    }
+                    var body2json = JSON.parse(body);
+                    if (body2json.errorMsg) {
+                        msg.payload = body2json.errorMsg;
+                        node.send([null, msg]);
+                    } else {
+                        this.status({ fill: "green", shape: "dot", text: msg.payload });
+                        node.send([msg, null]);
+                    }
+                });
+            }
+        });
+    }
+    RED.nodes.registerType("Set Auto", SetAutosalusit500);
 }

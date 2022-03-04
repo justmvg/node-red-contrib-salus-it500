@@ -116,3 +116,39 @@
     </ul>
 
 </script>
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('Set Auto', {
+        category: 'salus',
+        color: '#3FADB5',
+        defaults: {
+            name: { value: "" }
+        },
+        inputs: 1,
+        outputs: 2,
+        outputLabels: ["set auto", "invalid token"],
+        icon: "feed.png",
+        label: function () {
+            return this.name || "Set Auto";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="Set Auto">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Set Auto">
+    <p>A node that changes the auto schedule or off state.</p>
+    <h2>Node Input</h2>
+    <p>To set the device to follow the schedule, input a string AUTO or boolean true.<br />To set the auto state off, make sure the input is a string OFF or boolean false.</p>
+    <h2>Node Output</h2>
+    <ul>
+        <li>Output 1: Returns the exact same as the input value if setting temperature was successful.</li>
+        <li>Output 2: Only returns output if the token or device ID are invalid/expired.</li>
+    </ul>
+</script>
