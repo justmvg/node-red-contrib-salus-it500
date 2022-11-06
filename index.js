@@ -23,9 +23,9 @@ module.exports = function (RED) {
         node.on('input', function (msg) {
             request.post(postdata, (err, response, body) => {
                 if (err) {
-                    return console.error('login failed:', err);
+                    return console.error('node-red-contrib-salus-it500 - login failed:', err);
                 }
-                console.log('Logged in')
+                console.log('node-red-contrib-salus-it500 - Logged in')
                 request.get('https://salus-it500.com/public/devices.php', (err, getresponse, html) => {
                     var $ = cheerio.load(html)
                     var currentToken = $('#token').attr('value')
@@ -80,7 +80,7 @@ module.exports = function (RED) {
                     if (err) {
                         msg.payload = msg;
                         node.warn(msg);
-                        return console.error('Failed:', err);
+                        return console.error('node-red-contrib-salus-it500 - Failed:', err);
                     }
                     var body2json = JSON.parse(body);
                     if (body2json.errorMsg) {
@@ -114,7 +114,7 @@ module.exports = function (RED) {
 
                 request.get(endpoint, (err, response, body) => {
                     if (err) {
-                        return console.error('Failed:', err);
+                        return console.error('node-red-contrib-salus-it500 - Failed:', err);
                     }
                     var body2json = JSON.parse(body);
 
@@ -175,7 +175,7 @@ module.exports = function (RED) {
                     if (err) {
                         msg.payload = msg;
                         node.warn(msg);
-                        return console.error('Failed:', err);
+                        return console.error('node-red-contrib-salus-it500 - Failed:', err);
                     }
                     var body2json = JSON.parse(body);
                     if (body2json.errorMsg) {
