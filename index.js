@@ -88,6 +88,7 @@ module.exports = function (RED) {
                         node.send([null, msg]);
                     } else {
                         this.status({ fill: "green", shape: "dot", text: msg.payload });
+                        flowContext.set(`setTemp_${devId}`, msg.payload);
                         node.send([msg, null]);
                     }
                 });
@@ -124,6 +125,8 @@ module.exports = function (RED) {
                         var setTemp = parseFloat(body2json.CH1currentSetPoint);
                         this.status({ fill: "green", shape: "dot", text: currentTemp });
                         msg.payload = { Current: currentTemp, Set: setTemp };
+                        flowContext.set(`currentTemp_${devId}`, currentTemp);
+                        flowContext.set(`setTemp_${devId}`, setTemp);
                         node.send([msg, null]);
                     }
                 });
