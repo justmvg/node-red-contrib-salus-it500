@@ -90,6 +90,7 @@ module.exports = function (RED) {
                         this.status({ fill: "green", shape: "dot", text: msg.payload });
                         flowContext.set("setTemp", msg.payload);
                         node.send([msg, null]);
+                        GetTempsalusit500(config);
                     }
                 });
             }
@@ -123,10 +124,12 @@ module.exports = function (RED) {
                     } else {
                         var currentTemp = parseFloat(body2json.CH1currentRoomTemp);
                         var setTemp = parseFloat(body2json.CH1currentSetPoint);
+                        var auto = parseInt(body2json.CH1autoMode) == 0;
                         this.status({ fill: "green", shape: "dot", text: currentTemp });
                         msg.payload = { Current: currentTemp, Set: setTemp };
                         flowContext.set("currentTemp", currentTemp);
                         flowContext.set("setTemp", setTemp);
+                        flowContext.set("auto", auto);
                         node.send([msg, null]);
                     }
                 });
@@ -184,6 +187,7 @@ module.exports = function (RED) {
                     } else {
                         this.status({ fill: "green", shape: "dot", text: msg.payload });
                         node.send([msg, null]);
+                        GetTempsalusit500(config);
                     }
                 });
             }
