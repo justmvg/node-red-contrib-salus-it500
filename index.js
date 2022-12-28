@@ -192,5 +192,41 @@ module.exports = function (RED) {
             }
         });
     }
-    RED.nodes.registerType("Set Auto", SetAutosalusit500);
+    RED.nodes.registerType("Set Auto", SetAutosalusit500);    
+    
+    function GetHeatStatussalusit500(config) {
+        RED.nodes.createNode(this, config);
+
+        var flowContext = this.context().flow;
+        var node = this;
+        node.on('input', function (msg) {
+            var cToken = flowContext.get('token') || 0;
+            var cdevId = flowContext.get('devId') || 0;
+
+            if (cToken == 0 || cdevId == 0) {
+                msg.payload = 'No token or device id found.';
+                node.send([null, msg])
+            } else {
+                var endpoint = 'https://salus-it500.com/public/ajax_device_values.php?devId=' + cdevId + '&token=' + cToken
+
+                request.get(endpoint, (err, response, body) => {
+                    if (err) {
+                        return console.error('Failed:', err);
+                    }
+                    var body2json = JSON.parse(body);
+
+                    if (body2json.frost == 32) {
+                        node.send([null, msg])
+                    } else {
+                        var salusheatstatus = body2json.CH1heatOnOffStatus;
+                        this.status({ fill: "green", shape: "dot", text: salusheatstatus });
+                        msg.payload = { Current: salusheatstatus };
+                        node.send([msg, null]);
+                    }
+                });
+            }
+        });
+    }
+    RED.nodes.registerType("Heat Status", GetHeatStatussalusit500);
+
 }
