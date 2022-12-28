@@ -123,10 +123,12 @@ module.exports = function (RED) {
                     } else {
                         var currentTemp = parseFloat(body2json.CH1currentRoomTemp);
                         var setTemp = parseFloat(body2json.CH1currentSetPoint);
+                        var auto = parseInt(body2json.CH1autoMode) == 0;
                         this.status({ fill: "green", shape: "dot", text: currentTemp });
                         msg.payload = { Current: currentTemp, Set: setTemp };
                         flowContext.set("currentTemp", currentTemp);
                         flowContext.set("setTemp", setTemp);
+                        flowContext.set("auto", auto);
                         node.send([msg, null]);
                     }
                 });
@@ -183,6 +185,7 @@ module.exports = function (RED) {
                         node.send([null, msg]);
                     } else {
                         this.status({ fill: "green", shape: "dot", text: msg.payload });
+                        flowContext.set("auto", desiredState == 0);
                         node.send([msg, null]);
                     }
                 });
