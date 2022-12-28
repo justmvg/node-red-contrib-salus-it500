@@ -23,9 +23,9 @@ module.exports = function (RED) {
         node.on('input', function (msg) {
             request.post(postdata, (err, response, body) => {
                 if (err) {
-                    return console.error('node-red-contrib-salus-it500 - login failed:', err);
+                    return console.error('login failed:', err);
                 }
-                console.log('node-red-contrib-salus-it500 - Logged in')
+                console.log('Logged in')
                 request.get('https://salus-it500.com/public/devices.php', (err, getresponse, html) => {
                     var $ = cheerio.load(html)
                     var currentToken = $('#token').attr('value')
@@ -80,7 +80,7 @@ module.exports = function (RED) {
                     if (err) {
                         msg.payload = msg;
                         node.warn(msg);
-                        return console.error('node-red-contrib-salus-it500 - Failed:', err);
+                        return console.error('Failed:', err);
                     }
                     var body2json = JSON.parse(body);
                     if (body2json.errorMsg) {
@@ -88,6 +88,7 @@ module.exports = function (RED) {
                         node.send([null, msg]);
                     } else {
                         this.status({ fill: "green", shape: "dot", text: msg.payload });
+                        flowContext.set("setTemp", msg.payload);
                         node.send([msg, null]);
                     }
                 });
@@ -113,7 +114,7 @@ module.exports = function (RED) {
 
                 request.get(endpoint, (err, response, body) => {
                     if (err) {
-                        return console.error('node-red-contrib-salus-it500 - Failed:', err);
+                        return console.error('Failed:', err);
                     }
                     var body2json = JSON.parse(body);
 
@@ -124,6 +125,8 @@ module.exports = function (RED) {
                         var setTemp = parseFloat(body2json.CH1currentSetPoint);
                         this.status({ fill: "green", shape: "dot", text: currentTemp });
                         msg.payload = { Current: currentTemp, Set: setTemp };
+                        flowContext.set("currentTemp", currentTemp);
+                        flowContext.set("setTemp", setTemp);
                         node.send([msg, null]);
                     }
                 });
@@ -172,7 +175,7 @@ module.exports = function (RED) {
                     if (err) {
                         msg.payload = msg;
                         node.warn(msg);
-                        return console.error('node-red-contrib-salus-it500 - Failed:', err);
+                        return console.error('Failed:', err);
                     }
                     var body2json = JSON.parse(body);
                     if (body2json.errorMsg) {
