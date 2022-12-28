@@ -185,6 +185,7 @@ module.exports = function (RED) {
                         node.send([null, msg]);
                     } else {
                         this.status({ fill: "green", shape: "dot", text: msg.payload });
+                        flowContext.set("auto", desiredState == 0);
                         node.send([msg, null]);
                     }
                 });
