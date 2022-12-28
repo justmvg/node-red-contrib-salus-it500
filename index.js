@@ -128,7 +128,6 @@ module.exports = function (RED) {
                         msg.payload = { Current: currentTemp, Set: setTemp };
                         flowContext.set("currentTemp", currentTemp);
                         flowContext.set("setTemp", setTemp);
-
                         flowContext.set("auto", auto);
                         node.send([msg, null]);
                     }
