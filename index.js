@@ -90,7 +90,6 @@ module.exports = function (RED) {
                         this.status({ fill: "green", shape: "dot", text: msg.payload });
                         flowContext.set("setTemp", msg.payload);
                         node.send([msg, null]);
-                        GetTempsalusit500(config);
                     }
                 });
             }
@@ -187,7 +186,6 @@ module.exports = function (RED) {
                     } else {
                         this.status({ fill: "green", shape: "dot", text: msg.payload });
                         node.send([msg, null]);
-                        GetTempsalusit500(config);
                     }
                 });
             }
