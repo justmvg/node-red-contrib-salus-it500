@@ -1,5 +1,5 @@
 var request = require('request');
-var request = request.defaults({ jar: true })
+var request = request.defaults({ jar: true });
 var cheerio = require('cheerio');
 
 module.exports = function (RED) {
@@ -88,6 +88,7 @@ module.exports = function (RED) {
                         node.send([null, msg]);
                     } else {
                         this.status({ fill: "green", shape: "dot", text: msg.payload });
+                        flowContext.set("setTemp", msg.payload);
                         node.send([msg, null]);
                     }
                 });
@@ -122,8 +123,12 @@ module.exports = function (RED) {
                     } else {
                         var currentTemp = parseFloat(body2json.CH1currentRoomTemp);
                         var setTemp = parseFloat(body2json.CH1currentSetPoint);
+                        var auto = parseInt(body2json.CH1autoMode) == 0;
                         this.status({ fill: "green", shape: "dot", text: currentTemp });
                         msg.payload = { Current: currentTemp, Set: setTemp };
+                        flowContext.set("currentTemp", currentTemp);
+                        flowContext.set("setTemp", setTemp);
+                        flowContext.set("auto", auto);
                         node.send([msg, null]);
                     }
                 });
@@ -180,14 +185,14 @@ module.exports = function (RED) {
                         node.send([null, msg]);
                     } else {
                         this.status({ fill: "green", shape: "dot", text: msg.payload });
+                        flowContext.set("auto", desiredState == 0);
                         node.send([msg, null]);
                     }
                 });
             }
         });
     }
-    RED.nodes.registerType("Set Auto", SetAutosalusit500);
-    
+    RED.nodes.registerType("Set Auto", SetAutosalusit500);    
     
     function GetHeatStatussalusit500(config) {
         RED.nodes.createNode(this, config);
@@ -223,4 +228,5 @@ module.exports = function (RED) {
         });
     }
     RED.nodes.registerType("Heat Status", GetHeatStatussalusit500);
+
 }

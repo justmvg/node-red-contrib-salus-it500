@@ -152,3 +152,37 @@
         <li>Output 2: Only returns output if the token or device ID are invalid/expired.</li>
     </ul>
 </script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('Heat Status', {
+        category: 'salus',
+        color: '#3FADB5',
+        defaults: {
+            name: { value: "" }
+        },
+        inputs: 1,
+        outputs: 2,
+        outputLabels: ["heat status", "invalid token"],
+        icon: "feed.png",
+        label: function () {
+            return this.name || "Heat Status";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="Status">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="Status">
+    <p>A node that retrieves the status data.</p>
+    <p>Any input triggers a call to Salus and will output the heat status.</p>
+    <h2>Node Ouput</h2>
+    <ul>
+        <li>Output 1: Returns json object with heat status.</li>
+        <li>Output 2: Only returns output if the token or device ID are invalid/expired.</li>
+    </ul>
+</script>
