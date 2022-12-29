@@ -124,11 +124,13 @@ module.exports = function (RED) {
                         var currentTemp = parseFloat(body2json.CH1currentRoomTemp);
                         var setTemp = parseFloat(body2json.CH1currentSetPoint);
                         var auto = parseInt(body2json.CH1autoMode) == 0;
+                        var salusheatstatus = parseInt(body2json.CH1heatOnOffStatus);
                         this.status({ fill: "green", shape: "dot", text: currentTemp });
-                        msg.payload = { Current: currentTemp, Set: setTemp };
+                        msg.payload = { Current: currentTemp, Set: setTemp, HeatStatus: salusheatstatus };
                         flowContext.set("currentTemp", currentTemp);
                         flowContext.set("setTemp", setTemp);
                         flowContext.set("auto", auto);
+                        flowContext.set("heatStatus", salusheatstatus);
                         node.send([msg, null]);
                     }
                 });
