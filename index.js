@@ -218,9 +218,10 @@ module.exports = function (RED) {
                     if (body2json.frost == 32) {
                         node.send([null, msg])
                     } else {
-                        var salusheatstatus = body2json.CH1heatOnOffStatus;
+                        var salusheatstatus = parseInt(body2json.CH1heatOnOffStatus);
                         this.status({ fill: "green", shape: "dot", text: salusheatstatus });
                         msg.payload = { Current: salusheatstatus };
+                        flowContext.set("heatStatus", salusheatstatus);
                         node.send([msg, null]);
                     }
                 });
